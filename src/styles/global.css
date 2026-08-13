@@ -1,33 +1,63 @@
 /*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
+  Originally based on Bear Blog's default CSS.
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+
+  Palette: warm charcoal ground, muted amber accent. Monospace is reserved for
+  metadata and code so it reads as structure rather than decoration.
  */
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+	color-scheme: light dark;
+
+	/* Greys are RGB triplets so they can be used inside rgb()/rgba(). */
+	--black: 26, 26, 21;
+	--gray-dark: 45, 44, 36;
+	--gray: 116, 111, 95;
+	--gray-light: 224, 219, 205;
+
+	--bg: #f5f3ec;
+	--surface: #efece2;
+	--accent: #8a6420;
+	--accent-dark: #6d4e18;
+
+	--rule: rgba(var(--black), 14%);
+	--gray-gradient: rgba(var(--gray-light), 45%), var(--bg);
+	--box-shadow: 0 1px 2px rgba(var(--black), 6%), 0 4px 14px rgba(var(--black), 5%);
+
+	--font-mono:
+		ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 }
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--black: 232, 228, 216;
+		--gray-dark: 216, 213, 200;
+		--gray: 143, 138, 122;
+		--gray-light: 42, 42, 34;
+
+		--bg: #14140f;
+		--surface: #1b1b15;
+		--accent: #c9973f;
+		--accent-dark: #e0b055;
+
+		--rule: rgba(var(--black), 16%);
+		--box-shadow: 0 1px 2px rgba(0, 0, 0, 40%), 0 4px 14px rgba(0, 0, 0, 30%);
+	}
+}
+
 body {
 	font-family: var(--font-atkinson);
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
+	background: var(--bg);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
 	font-size: 20px;
 	line-height: 1.7;
+	-webkit-font-smoothing: antialiased;
 }
 main {
 	width: 720px;
@@ -35,90 +65,155 @@ main {
 	margin: auto;
 	padding: 3em 1em;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5rem 0;
+	margin: 2.5rem 0 0.75rem 0;
 	color: rgb(var(--black));
-	line-height: 1.2;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+	font-weight: 700;
 }
 h1 {
-	font-size: 3.052em;
+	font-size: 2.25em;
+	margin-top: 0;
 }
 h2 {
-	font-size: 2.441em;
+	font-size: 1.75em;
 }
 h3 {
-	font-size: 1.953em;
+	font-size: 1.4em;
 }
 h4 {
-	font-size: 1.563em;
+	font-size: 1.2em;
 }
 h5 {
-	font-size: 1.25em;
+	font-size: 1.05em;
 }
+
 strong,
 b {
 	font-weight: 700;
+	color: rgb(var(--black));
 }
+
 a {
 	color: var(--accent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
 }
 a:hover {
-	color: var(--accent);
+	color: var(--accent-dark);
 }
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+::selection {
+	background: rgba(var(--gray), 28%);
+}
+
 p {
 	margin-bottom: 1em;
 }
 .prose p {
-	margin-bottom: 2em;
+	margin-bottom: 1.6em;
 }
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
+
+textarea,
 input {
 	font-size: 16px;
+	font-family: inherit;
 }
+
 table {
 	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.9em;
 }
+th,
+td {
+	padding: 0.5em 0.6em;
+	border-bottom: 1px solid var(--rule);
+	text-align: left;
+}
+th {
+	color: rgb(var(--black));
+	font-weight: 700;
+}
+
 img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: 4px;
+}
+
+code,
+kbd,
+samp {
+	font-family: var(--font-mono);
+	font-size: 0.85em;
 }
 code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
+	padding: 0.15em 0.35em;
+	background-color: var(--surface);
+	border: 1px solid var(--rule);
+	border-radius: 3px;
 }
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+	padding: 1.1em 1.2em;
+	border: 1px solid var(--rule);
+	border-radius: 4px;
+	overflow-x: auto;
+	font-size: 0.8em;
+	line-height: 1.6;
 }
 pre > code {
 	all: unset;
+	font-family: var(--font-mono);
 }
+
 blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
+	border-left: 2px solid var(--accent);
+	padding: 0 0 0 1.2em;
+	margin: 1.5em 0;
+	color: rgb(var(--gray));
+	font-size: 1em;
+	font-style: italic;
 }
+
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border-top: 1px solid var(--rule);
+	margin: 2.5em 0;
 }
+
+/* Metadata: dates, bylines, footer. Monospace signals "this is data". */
+.date,
+.mono {
+	font-family: var(--font-mono);
+	font-size: 0.78em;
+	letter-spacing: 0.01em;
+	color: rgb(var(--gray));
+}
+
 @media (max-width: 720px) {
 	body {
 		font-size: 18px;
 	}
 	main {
-		padding: 1em;
+		padding: 1.5em 1em;
+	}
+	h1 {
+		font-size: 1.9em;
+	}
+	h2 {
+		font-size: 1.5em;
 	}
 }
 
