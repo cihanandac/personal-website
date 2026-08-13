@@ -2,3 +2,7 @@ dist
 .astro
 node_modules
 pnpm-lock.yaml
+
+# Content is written by Sveltia CMS. Letting Prettier reformat it (list indents,
+# quote style in image titles) creates churn against every CMS save.
+src/content
