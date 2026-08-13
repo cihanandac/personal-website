@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: cihanandac/personal-website
+  branch: main
+  # Personal access token sign-in. No OAuth broker needed.
+  # To add "Sign in with GitHub" later, deploy sveltia-cms-auth to a Cloudflare
+  # Worker, then add `base_url: <worker-url>` here and `oauth` to auth_methods.
+  auth_methods:
+    - token
+
+site_url: https://cihanandac.com
+publish_mode: simple
+
+# Fallback for anything outside a collection that sets its own media paths.
+media_folder: src/assets
+public_folder: /src/assets
+
+collections:
+  - name: blog
+    label: Blog
+    label_singular: Post
+    description: Posts published at /blog.
+    folder: src/content/blog
+    create: true
+    slug: '{{slug}}'
+    extension: md
+    format: yaml-frontmatter
+    preview_path: blog/{{slug}}
+    sortable_fields: [pubDate, title]
+    # Relative to the entry file (src/content/blog/*.md), so uploads land in
+    # src/assets/blog and the frontmatter path stays resolvable by Astro's
+    # content-collection image() helper.
+    media_folder: '../../assets/blog'
+    public_folder: '../../assets/blog'
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Description
+        name: description
+        widget: text
+        hint: Used for the page meta description, the RSS feed, and link previews.
+      - label: Publish date
+        name: pubDate
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        picker_utc: true
+      - label: Updated date
+        name: updatedDate
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        picker_utc: true
+        required: false
+      - label: Hero image
+        name: heroImage
+        widget: image
+        required: false
+      - label: Body
+        name: body
+        widget: markdown
