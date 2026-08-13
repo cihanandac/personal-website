@@ -11,6 +11,10 @@ backend:
     - token
 
 site_url: https://cihanandac.com
+# Saving commits straight to `main`, which deploys. Sveltia accepts
+# `editorial_workflow` in this field but does not implement it yet — it silently
+# behaves like `simple`. Upstream plans to add it before the 1.0 release:
+# https://sveltiacms.app/en/docs/workflows/editorial
 publish_mode: simple
 
 # Fallback for anything outside a collection that sets its own media paths.

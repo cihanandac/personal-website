@@ -5,6 +5,11 @@ on:
   # Using a different branch name? Replace `main` with your branch’s name
   push:
     branches: [main]
+  # Build (but do not deploy) pull requests, so a broken post fails on the
+  # branch instead of on production. CMS entries arrive as PRs via
+  # publish_mode: editorial_workflow.
+  pull_request:
+    branches: [main]
   # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
 
@@ -29,6 +34,8 @@ jobs:
 
   deploy:
     needs: build
+    # Pull requests are build-checked only; nothing is published until merge.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
