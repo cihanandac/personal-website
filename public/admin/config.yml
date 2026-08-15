@@ -4,10 +4,13 @@ backend:
   name: github
   repo: cihanandac/personal-website
   branch: main
-  # Personal access token sign-in. No OAuth broker needed.
-  # To add "Sign in with GitHub" later, deploy sveltia-cms-auth to a Cloudflare
-  # Worker, then add `base_url: <worker-url>` here and `oauth` to auth_methods.
+  # OAuth broker: sveltia-cms-auth running on Cloudflare Workers. Without this,
+  # `oauth` would fall back to Netlify (the schema default for base_url).
+  base_url: https://sveltia-cms-auth.cihanandac.workers.dev
+  # `token` is kept as a fallback so a Worker outage can't lock you out of
+  # publishing — you can still sign in with a personal access token.
   auth_methods:
+    - oauth
     - token
 
 site_url: https://cihanandac.com
