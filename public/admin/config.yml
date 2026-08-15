@@ -7,6 +7,10 @@ backend:
   # OAuth broker: sveltia-cms-auth running on Cloudflare Workers. Without this,
   # `oauth` would fall back to Netlify (the schema default for base_url).
   base_url: https://sveltia-cms-auth.cihanandac.workers.dev
+  # Sent to the broker as `site_id`. Without this it defaults to the current
+  # hostname — and on localhost it becomes `cms.netlify.com`, which the Worker's
+  # ALLOWED_DOMAINS rejects. Pinning it keeps local and production identical.
+  site_domain: cihanandac.com
   # `token` is kept as a fallback so a Worker outage can't lock you out of
   # publishing — you can still sign in with a personal access token.
   auth_methods:
