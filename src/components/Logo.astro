@@ -1,0 +1,44 @@
+---
+/**
+ * The site mark, matching public/favicon.svg.
+ *
+ * Kept as inline SVG rather than an <img> so it scales crisply and stays a
+ * single source of truth alongside the wordmark. Drawn as a path, not text, for
+ * the same reason as the favicon: no font dependency.
+ */
+interface Props {
+	size?: number;
+}
+
+const { size = 24 } = Astro.props;
+---
+
+<svg
+	class="logo"
+	viewBox="0 0 64 64"
+	width={size}
+	height={size}
+	aria-hidden="true"
+	focusable="false"
+>
+	<!--
+		Colours are pinned rather than themed. Using --accent/--bg inverted the
+		mark between light and dark, while the favicon cannot adapt — so the two
+		drifted apart. These are the favicon's exact values; the amber tile has
+		enough contrast to sit on either background.
+	-->
+	<rect width="64" height="64" rx="13" fill="#c9973f"></rect>
+	<path
+		d="M43 21.5 A17 17 0 1 0 43 42.5"
+		fill="none"
+		stroke="#14140f"
+		stroke-width="9"
+		stroke-linecap="round"></path>
+</svg>
+
+<style>
+	.logo {
+		display: block;
+		flex-shrink: 0;
+	}
+</style>
