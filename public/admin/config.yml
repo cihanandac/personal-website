@@ -70,6 +70,12 @@ collections:
         name: heroImage
         widget: image
         required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        default: []
+        hint: Case and accents are normalised, so "Astro" and "astro" are the same tag.
       - label: Body
         name: body
         widget: markdown
