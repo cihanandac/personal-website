@@ -1,0 +1,48 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Not found · ${SITE_TITLE}`} description="This page doesn't exist." />
+		<style>
+			.code {
+				font-family: var(--font-mono);
+				font-size: 3em;
+				color: var(--accent);
+				line-height: 1;
+				margin-bottom: 0.5rem;
+			}
+			.links {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1.25rem;
+				font-family: var(--font-mono);
+				font-size: 0.8em;
+				margin-top: 2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<p class="code">404</p>
+			<h1>Not found</h1>
+			<p>
+				There's nothing at this address. The link may be wrong, or something that used to live here
+				has moved.
+			</p>
+			<nav class="links" aria-label="Where to go instead">
+				<a href="/">Home</a>
+				<a href="/blog/">Blog</a>
+				<a href="/blog/tags/">Tags</a>
+				<a href="/about">About</a>
+			</nav>
+		</main>
+		<Footer />
+	</body>
+</html>
