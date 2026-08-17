@@ -8,6 +8,19 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
 	site: 'https://cihanandac.com',
 	integrations: [mdx(), sitemap()],
+	markdown: {
+		shikiConfig: {
+			// Gruvbox's warm ochres sit in the same family as the site accent.
+			// Astro emits both themes at once; global.css activates the dark one
+			// under prefers-color-scheme and pins the block background to
+			// --surface so the theme's own background never fights the page.
+			themes: {
+				light: 'gruvbox-light-medium',
+				dark: 'gruvbox-dark-medium',
+			},
+			wrap: false,
+		},
+	},
 	fonts: [
 		{
 			provider: fontProviders.local(),
