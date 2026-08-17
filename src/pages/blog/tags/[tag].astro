@@ -1,0 +1,79 @@
+---
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import Header from '../../../components/Header.astro';
+import { SITE_TITLE } from '../../../consts';
+import { getAllTags, getPostsByTag } from '../../../utils/posts';
+
+export async function getStaticPaths() {
+	const tags = await getAllTags();
+
+	return Promise.all(
+		tags.map(async (tag) => ({
+			params: { tag: tag.slug },
+			props: { tag, posts: await getPostsByTag(tag.slug) },
+		})),
+	);
+}
+
+const { tag, posts } = Astro.props;
+const title = `Posts tagged “${tag.name}”`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${tag.name} · ${SITE_TITLE}`} description={title} />
+		<style>
+			.posts {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.posts li + li {
+				margin-top: 1.25rem;
+			}
+			.posts a {
+				display: block;
+				text-decoration: none;
+			}
+			.posts .title {
+				margin: 0;
+				color: rgb(var(--black));
+				line-height: 1.2;
+			}
+			.posts a:hover .title {
+				color: var(--accent);
+			}
+			.count {
+				margin-bottom: 2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>{title}</h1>
+			<p class="count mono">
+				{posts.length}
+				{posts.length === 1 ? 'post' : 'posts'} · <a href="/blog/tags/">all tags</a>
+			</p>
+			<ul class="posts">
+				{
+					posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.id}/`}>
+								<h2 class="title">{post.data.title}</h2>
+								<p class="date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

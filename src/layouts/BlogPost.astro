@@ -5,14 +5,17 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import { tagSlug } from '../utils/posts';
 
-/* pubDate is optional so standalone pages (e.g. /about) can reuse this layout
-   without showing a dateline. Blog posts always supply one via the schema. */
-type Props = Omit<CollectionEntry<'blog'>['data'], 'pubDate'> & {
+/* pubDate and tags are optional so standalone pages (e.g. /about) can reuse this
+   layout without a dateline or tag list. Blog posts always supply both via the
+   schema. */
+type Props = Omit<CollectionEntry<'blog'>['data'], 'pubDate' | 'tags'> & {
 	pubDate?: CollectionEntry<'blog'>['data']['pubDate'];
+	tags?: CollectionEntry<'blog'>['data']['tags'];
 };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
 ---
 
 <html lang="en">
@@ -55,6 +58,26 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				margin-bottom: 0.5em;
 				color: rgb(var(--gray));
 			}
+			.tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				list-style: none;
+				margin: 0.75rem 0 0;
+				padding: 0;
+			}
+			.tags a {
+				display: inline-block;
+				padding: 0.15em 0.6em;
+				border: 1px solid var(--rule);
+				border-radius: 3px;
+				font-family: var(--font-mono);
+				font-size: 0.75em;
+				text-decoration: none;
+			}
+			.tags a:hover {
+				border-color: var(--accent);
+			}
 			.last-updated-on {
 				font-style: italic;
 			}
@@ -83,6 +106,17 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 							)
 						}
 						<h1>{title}</h1>
+						{
+							tags.length > 0 && (
+								<ul class="tags">
+									{tags.map((tag) => (
+										<li>
+											<a href={`/blog/tags/${tagSlug(tag)}/`}>{tag}</a>
+										</li>
+									))}
+								</ul>
+							)
+						}
 						<hr />
 					</div>
 					<slot />

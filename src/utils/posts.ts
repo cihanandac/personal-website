@@ -47,3 +47,53 @@ export async function getPublishedPosts() {
 
 	return posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
+
+/**
+ * URL-safe form of a tag.
+ *
+ * NFKD strips accents, but Turkish dotless "ı" has no decomposition, so it is
+ * mapped explicitly — otherwise "Yazılım" and "Yazilim" would produce different
+ * slugs and split into two tags.
+ */
+export function tagSlug(tag: string) {
+	return tag
+		.trim()
+		.replace(/ı/g, 'i')
+		.replace(/İ/g, 'i')
+		.normalize('NFKD')
+		.replace(/[̀-ͯ]/g, '')
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Every tag in use, with the number of posts carrying it, most used first.
+ *
+ * Tags are grouped by slug so "Astro", "astro" and "ASTRO" count as one. The
+ * first spelling encountered (in newest-first post order) becomes the label.
+ */
+export async function getAllTags() {
+	const posts = await getPublishedPosts();
+	const bySlug = new Map<string, { name: string; slug: string; count: number }>();
+
+	for (const post of posts) {
+		for (const tag of post.data.tags) {
+			const slug = tagSlug(tag);
+			if (!slug) continue;
+
+			const existing = bySlug.get(slug);
+			if (existing) existing.count += 1;
+			else bySlug.set(slug, { name: tag.trim(), slug, count: 1 });
+		}
+	}
+
+	return [...bySlug.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
+
+/** Published posts carrying a given tag slug, newest first. */
+export async function getPostsByTag(slug: string) {
+	const posts = await getPublishedPosts();
+
+	return posts.filter((post) => post.data.tags.some((tag) => tagSlug(tag) === slug));
+}
