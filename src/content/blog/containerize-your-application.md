@@ -92,9 +92,8 @@ After successfully, pushing the image to the Docker hub.
 
 Container registries are integrated within the each Gitlab project. Check following documentation to understand it a bit better: [docs.gitlab.com/user/packages/container_registry](https://docs.gitlab.com/user/packages/container_registry/)
 
-Tip
-
-An administrator must enable the container registry for your GitLab instance. For more information, see [GitLab container registry administration](https://docs.gitlab.com/administration/packages/container_registry/).
+> !Tip
+> An administrator must enable the container registry for your GitLab instance. For more information, see [GitLab container registry administration](https://docs.gitlab.com/administration/packages/container_registry/).
 
 Same command for the docker push is still valid here, but instead of using `username/image-name`, we need to state the registries name as well.
 
@@ -109,9 +108,3 @@ Offloading the building process to the CI might be nice idea for big projects. B
 # Building container image for different machines
 
 ## Docker buildx
-
-# Image Layers
-
-Container images contain multiple layer upon building. Each layer of the image is making a change (adding, deleting, modifying etc.) and this changes are immutable.
-
-Layers are reusable between the images, if there are two similar applications that share a some of layers, we can leverage this to create faster builds and use less storage.
