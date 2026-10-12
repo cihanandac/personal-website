@@ -15,7 +15,7 @@ type Props = Omit<CollectionEntry<'blog'>['data'], 'pubDate' | 'tags'> & {
 	tags?: CollectionEntry<'blog'>['data']['tags'];
 };
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, imageCredit, imageAlt, tags = [] } = Astro.props;
 ---
 
 <html lang="en">
@@ -35,6 +35,10 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
 				margin: 0 auto;
 				border-radius: 4px;
 			}
+      .image-credit {
+        font-size: 10px;
+        font-style: italic;
+      }
 			.prose {
 				width: 720px;
 				max-width: calc(100% - 2em);
@@ -89,9 +93,12 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
 		<main>
 			<article>
 				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+          {heroImage && <Image width={1020} height={510} src={heroImage} alt={imageAlt || ""} />}
 				</div>
 				<div class="prose">
+          <div class="image-credit">
+            {imageCredit && <p>Image: {imageCredit}</p>}
+          </div>
 					<div class="title">
 						{
 							pubDate && (
