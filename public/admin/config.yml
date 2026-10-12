@@ -70,6 +70,14 @@ collections:
         name: heroImage
         widget: image
         required: false
+      - label: Image Credit
+        name: imageCredit
+        widget: string
+        required: false
+      - label: Image Alt
+        name: imageAlt
+        widget: string
+        required: false
       - label: Tags
         name: tags
         widget: list
