@@ -3,7 +3,9 @@ title: Multi-stage Docker builds
 description: My notes on keeping build tooling out of the image you ship
 pubDate: 2026-08-28
 updatedDate: ''
-heroImage: ../../assets/blog/hero-02-multi-stage-builds.png
+heroImage: ../../assets/blog/art-institute-of-chicago-b3Cvn_Sc25g-unsplash.jpg
+imageCredit: H. Winslow, Stowing Sail
+imageAlt: Watercolor painting of a ship and a bot
 tags:
   - docker
   - containers

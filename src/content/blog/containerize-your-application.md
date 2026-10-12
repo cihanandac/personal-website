@@ -3,7 +3,9 @@ title: How to Containerize Your Application
 description: My notes on how to containerize your application
 pubDate: 2026-08-20
 updatedDate: 2026-08-27
-heroImage: /src/assets/hero-01-containerize.png
+heroImage: ../../assets/blog/national-historical-museum-of-sweden-nhm.jpg
+imageCredit: 'Three Vessels in a Storm. Upphov: Wou, Claes Claesz, Hallwylska museet/SHM (PDM)'
+imageAlt: Painting of ships in a stormy sea.
 tags:
   - docker
   - containers
